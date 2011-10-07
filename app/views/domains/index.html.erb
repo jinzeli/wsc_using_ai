@@ -1,0 +1,19 @@
+<% title "Knowledge Domains" %>
+
+<p><%= link_to "New domain", new_domain_path %></p>
+
+<hr />
+
+<% for domain in @domains %>
+<div class="domain">
+	<h3><%= link_to domain.title, domain_path(domain) %></h3>
+	<p>
+		<%= domain.description   %>
+	</p>
+	<p>
+		<%= link_to "Show", domain %> |
+		<%= link_to "Edit", edit_domain_path(domain) %> |
+		<%= link_to "Destroy", domain, :confirm => 'Are you sure?', :method => :delete %>
+	</p>
+</div>
+<% end %>

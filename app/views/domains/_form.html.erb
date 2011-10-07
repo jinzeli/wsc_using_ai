@@ -1,0 +1,26 @@
+<%= form_for @domain, :html => { :multipart => true } do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+	<% unless @domain.new_record? || !@domain.pdomain? %>
+	  <%= link_to "Uploaded domain", @domain.pdomain.url %> | Click to Delete
+	  <%= f.check_box :pdomain_delete, :label => 'Delete PDomain' %>
+	<% end %>
+  </p>
+  <p>
+	<% if @domain.new_record? || !@domain.pdomain? %>
+	  Domain: 
+	  <p>
+	  	<%= f.file_field :pdomain %>
+	  </p>
+	<% end %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

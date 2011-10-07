@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  pdomain_file_name: MyString
+  pdomain_content_type: MyString
+  pdomain_file_size: 1
+  pdomain_updated_at: 2011-10-07 07:38:05
+  domain_id: 1
+
+two:
+  pdomain_file_name: MyString
+  pdomain_content_type: MyString
+  pdomain_file_size: 1
+  pdomain_updated_at: 2011-10-07 07:38:05
+  domain_id: 1

@@ -1,0 +1,21 @@
+<% title "Knowledge Domains" %>
+
+<p>
+  <strong>Title:</strong>
+  <%= @domain.title %>
+</p>
+<p>
+  <strong>Description:</strong>
+  <%= @domain.description %>
+</p>
+<%- unless @domain.new_record? || !@domain.pdomain? -%>
+<p>
+  <strong>Domain File: </strong>
+  <%= link_to "Uploaded domain", @domain.pdomain.url %>
+</p>
+<% end %>
+<p>
+  <%= link_to "Edit", edit_domain_path(@domain) %> |
+  <%= link_to "Destroy", @domain, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", domains_path %>
+</p>
