@@ -11,7 +11,13 @@
 <%- unless @domain.new_record? || !@domain.pdomain? -%>
 <p>
   <strong>Domain File: </strong>
-  <%= link_to "Uploaded domain", @domain.pdomain.url %>
+  <%= link_to "uploaded domain", @domain.pdomain.url %>
+</p>
+<% end %>
+<%- unless @domain.new_record? || !@domain.pproblem? -%>
+<p>
+  <strong>Planning File: </strong>
+  <%= link_to "uploaded problem", @domain.pproblem.url %>
 </p>
 <% end %>
 <p>

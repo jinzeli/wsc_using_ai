@@ -10,17 +10,33 @@
   </p>
   <p>
 	<% unless @domain.new_record? || !@domain.pdomain? %>
-	  <%= link_to "Uploaded domain", @domain.pdomain.url %> | Click to Delete
+	  <%= link_to "Uploaded domain", @domain.pdomain.url %> | click to delete
 	  <%= f.check_box :pdomain_delete, :label => 'Delete PDomain' %>
 	<% end %>
   </p>
   <p>
 	<% if @domain.new_record? || !@domain.pdomain? %>
-	  Domain: 
+	  Planning Domain: 
 	  <p>
 	  	<%= f.file_field :pdomain %>
 	  </p>
 	<% end %>
   </p>
+
+  <p>
+	<% unless @domain.new_record? || !@domain.pproblem? %>
+	  <%= link_to "Uploaded planning", @domain.pproblem.url %> | click to delete
+	  <%= f.check_box :pproblem_delete, :label => 'Delete PProblem' %>
+	<% end %>
+  </p>
+  <p>
+	<% if @domain.new_record? || !@domain.pproblem? %>
+	  Planning Problem: 
+	  <p>
+	  	<%= f.file_field :pproblem %>
+	  </p>
+	<% end %>
+  </p>
+
   <p><%= f.submit %></p>
 <% end %>
