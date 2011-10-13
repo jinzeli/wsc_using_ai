@@ -8,18 +8,25 @@
   <strong>Description:</strong>
   <%= @domain.description %>
 </p>
-<%- unless @domain.new_record? || !@domain.pdomain? -%>
+<% unless @domain.new_record? || !@domain.pdomain? %>
 <p>
   <strong>Domain File: </strong>
   <%= link_to "uploaded domain", @domain.pdomain.url %>
 </p>
 <% end %>
-<%- unless @domain.new_record? || !@domain.pproblem? -%>
+<% unless @domain.new_record? || !@domain.pproblem? -%>
 <p>
   <strong>Planning File: </strong>
   <%= link_to "uploaded problem", @domain.pproblem.url %>
 </p>
 <% end %>
+
+<% if @domain.pdomain? && @domain.pproblem? -%>
+<p>
+  <%= button_to "Find a plan", :action=>"plan" %>
+</p>
+<% end %>
+
 <p>
   <%= link_to "Edit", edit_domain_path(@domain) %> |
   <%= link_to "Destroy", @domain, :confirm => 'Are you sure?', :method => :delete %> |

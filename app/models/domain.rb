@@ -1,5 +1,5 @@
 class Domain < ActiveRecord::Base
-  attr_accessible :title, :description, :pdomain_delete, :pdomain, :pproblem_delete, :pproblem
+  attr_accessible :title, :description, :pdomain_delete, :pdomain, :pproblem_delete, :pproblem, :plan
   has_attached_file :pdomain
   has_attached_file :pproblem
   

@@ -1,0 +1,92 @@
+#!/bin/sh
+
+set -e
+
+prog="`basename \"${0}\"`"
+PATH=$PATH:.
+TMPDIR=/tmp
+CPP=`which cpp`
+
+error () {
+	echo "Error: $@."
+	echo "Use \"$prog -h\" for help."
+	exit 1
+}
+
+execerror () {
+	echo
+	echo "ERROR: $@."
+	echo
+	exit 1
+}
+
+usage () {
+	echo \
+"Usage: 
+  $prog [-v <n>] <nupddl-files>...
+where:
+  -v <n>           sets the verbosity level
+  <nupddl-files>   is a list of input nupddl files"
+}
+
+mbp="MBP"
+nupddl2smv="npddl2nusmv"
+catall="catall"
+smvfile=${TMPDIR}/file_$$.smv
+nupddlfile=${TMPDIR}/file_$$.nupddl
+opt="-skip_synthesis -validate_plan"
+files=""
+
+echo "-----------------------------------------------------------------------"
+echo "Copyright (c) 2002 by ITC-IRST.  All Rights Reserved."
+echo "This software is for evaluation purposes only."
+echo "No permission is given to copy and modify this software and its"
+echo "documentation. This software is provided on an \"as is\" basis. ITC-IRST"
+echo "does not provide any guarantee upon the utilization of this software."
+echo "Send bug-reports and/or questions to: mbp@irst.itc.it."
+echo "-----------------------------------------------------------------------"
+echo " "
+
+while true
+do
+	case "$1" in
+	"-help") usage; exit 0;;
+	"-h") usage; exit 0;;
+	"-?") usage; exit 0;;
+	"-v") 
+		if [ $# -lt 2 ]; then         
+			error "no verbosity level specified"
+		else
+			opt="$opt -v $2"
+			shift
+		fi;;
+	-*) error "unknown option $1";;  
+	*) break ;;
+	esac
+	shift
+done
+
+if [ $# -lt 1 ]; then error "no input file specified"; fi
+
+while [ $# -gt 0 ]
+do
+	if [ ! -f $1 ]; then
+	        error "input file $1 does not exist"
+	fi;
+	if [ ! -w $1 ]; then
+	        error "input file $1 not readable"
+	fi;
+	files="$files $1"
+	shift
+done
+
+$catall $files | $CPP > ${nupddlfile}  \
+    || execerror "error processing files ${files}"
+$nupddl2smv < ${nupddlfile} > ${smvfile} \
+    || execerror "error processing file ${nupddlfile}"
+$mbp $opt ${smvfile} \
+    || execerror "error processing file ${smvfile}"
+
+rm ${nupddlfile} ${smvfile}
+
+exit 0

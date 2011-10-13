@@ -1,0 +1,9 @@
+(define (problem satbal_pb)
+        (:domain saturation_balancing)
+        (:init
+				(= (process) start)
+			) 
+		(:weakgoal
+				    (= (process) refuse)
+		)
+)

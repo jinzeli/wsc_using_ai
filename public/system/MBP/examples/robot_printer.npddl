@@ -1,0 +1,44 @@
+(define (domain paper_delivery)
+(:types room_number)
+(:predicates
+(arm_busy)
+(papers_around)
+(paper_at_printer))
+(:functions
+(robot_room)
+- room_number
+(paper_banner) - room_number)
+(:action move_left
+:precondition (not (= (robot_room) 0))
+:effect
+(assign (robot_room) (- (robot_room) 1)))
+(:action move_right
+:precondition (not (= (robot_room) (sup room_number)))
+:effect
+(assign (robot_room) (+ (robot_room) 1)))
+(:action pick_paper
+:precondition (and (paper_at_printer)
+(not (arm_busy))
+(= (robot_room) 0))
+:effect (and
+(arm_busy)
+(unknown (paper_banner))
+(unknown (paper_at_printer))))
+(:action leave_paper
+:precondition (arm_busy)
+:effect (and
+(not (arm_busy))
+(when (not (= (robot_room) (paper_banner)))
+(papers_around)))))
+
+(:observation (robot_at_printer) - :boolean
+(iff (robot_at_printer) (= (robot_room) 0)))
+(:observation (paper_in_printer) - :boolean
+(and
+(imply (paper_in_printer)
+(or (> (robot_room) 0)
+(paper_at_printer)))
+(imply (not (paper_in_printer))
+(or (> (robot_room) 0)
+(not (paper_at_printer))))))
+

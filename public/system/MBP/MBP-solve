@@ -1,0 +1,157 @@
+#!/bin/sh
+
+set -e
+
+prog="`basename \"${0}\"`"
+PATH=$PATH:.
+TMPDIR=/tmp
+CPP=`which cpp`
+
+error () {
+	echo "Error: $@."
+	echo "Use \"$prog -h\" for help."
+	exit 1
+}
+
+execerror () {
+	echo
+	echo "ERROR: $@."
+	echo
+	exit 1
+}
+
+usage () {
+	echo \
+"Usage: 
+  $prog [-plan_output <plan>] [-plan_validate] [-plan_simulate] 
+    [-sc_local_search] [-po <algo>] [-po_heur <po-heur>]
+    [-conformant <dir>] [-conformant_heur <conf-heur>] [-v <n>]
+    <nupddl-files>...
+where:
+  -plan_output <plan> enables the emission of the computed plan into
+                      file <plan> (\"-\" means stdout)
+  -plan_validate      enables the validation of the computed plan
+  -plan_simulate      enables the simulation of the computed plan
+  -sc_local_search    enables the \"local-search\" algorithm for
+                      strong cyclic goals
+  -po <algo>          specifies the partial observability algorithm
+                      (<algo> = dfs | her)
+  -po_heur <po-heur>  specifies the search heuristic of the conformant
+                      algorithm (<po-heur> = 1..12)
+  -conformant <dir>   specifies the search direction of the conformant
+                      algorithm (<dir> = fwd | bwd)
+  -conformant_heur <conf-heur> 
+                      specifies the search heuristic of the conformant
+                      algorithm (<heur> = breadth | depth | best)
+  -v <n>              sets the verbosity level
+  <nupddl-files>      is a list of input nupddl files"
+}
+
+mbp="MBP"
+nupddl2smv="npddl2nusmv"
+catall="catall"
+opt="-po_validate_hoc -conformant_ad_hoc_validate"
+files=""
+smvfile=${TMPDIR}/file_$$.smv
+nupddlfile=${TMPDIR}/file_$$.nupddl
+
+# simulation_options="-psimulate_mode user -psimulate_sel_mode int -psimulate_maxsteps 1000"
+# simulation_options="-psimulate_mode user -psimulate_sel_mode rnd -psimulate_maxsteps 1000"
+# simulation_options="-psimulate_mode user -psimulate_sel_mode fix -psimulate_maxsteps 1000"
+# simulation_options="-psimulate_mode god -psimulate_sel_mode int -psimulate_maxsteps 1000"
+# simulation_options="-psimulate_mode god -psimulate_sel_mode rnd -psimulate_maxsteps 1000"
+# simulation_options="-psimulate_mode god -psimulate_sel_mode fix -psimulate_maxsteps 1000"
+
+echo "-----------------------------------------------------------------------"
+echo "Copyright (c) 2002 by ITC-IRST.  All Rights Reserved."
+echo "This software is for evaluation purposes only."
+echo "No permission is given to copy and modify this software and its"
+echo "documentation. This software is provided on an \"as is\" basis. ITC-IRST"
+echo "does not provide any guarantee upon the utilization of this software."
+echo "Send bug-reports and/or questions to: mbp@irst.itc.it."
+echo "-----------------------------------------------------------------------"
+echo " "
+
+
+
+while true
+do
+	case "$1" in
+	"-help") usage; exit 0;;
+	"-h") usage; exit 0;;
+	"-?") usage; exit 0;;
+	"-plan_output") 
+		if [ $# -lt 2 ]; then         
+			error "no plan output file specified"
+		else
+			opt="$opt -print_plan -output_plan_name $2"
+			shift
+		fi;;
+	"-plan_validate") opt="$opt -validate_plan";;
+	"-plan_simulate") opt="$opt -simulate_plan -psimulate_mode user -psimulate_sel_mode int -psimulate_maxsteps 1000";;
+	"-sc_local_search") opt="$opt -sc_local_search";;
+	"-conformant") 
+		if [ $# -lt 2 ]; then         
+			error "no conformant mode specified"
+		else
+			opt="$opt -conformant $2"
+			shift
+		fi;;
+	"-conformant_heur") 
+		if [ $# -lt 2 ]; then         
+			error "no conformant heuristic specified"
+		else
+			opt="$opt -conformant_heur $2"
+			shift
+		fi;;
+	"-po") 
+		if [ $# -lt 2 ]; then         
+			error "no po mode specified"
+		else
+			opt="$opt -po $2"
+			shift
+		fi;;
+	"-po_heur") 
+		if [ $# -lt 2 ]; then         
+			error "no po heuristic specified"
+		else
+			opt="$opt -po_heur $2"
+			shift
+		fi;;
+	"-v") 
+		if [ $# -lt 2 ]; then         
+			error "no verbosity level specified"
+		else
+			opt="$opt -v $2"
+			shift
+		fi;;
+	-*) error "unknown option $1";;  
+	*) break ;;
+	esac
+	shift
+done
+
+if [ $# -lt 1 ]; then error "no input file specified"; fi
+
+while [ $# -gt 0 ]
+do
+	if [ ! -f $1 ]; then
+	        error "input file $1 does not exist"
+	fi;
+	if [ ! -w $1 ]; then
+	        error "input file $1 not readable"
+	fi;
+	files="$files $1"
+	shift
+done
+
+$catall $files | $CPP > ${nupddlfile}  \
+    || execerror "error processing files ${files}"
+$nupddl2smv < ${nupddlfile} > ${smvfile} \
+    || execerror "error processing file ${nupddlfile}"
+$mbp $opt ${smvfile} \
+    || execerror "error processing file ${smvfile}"
+
+rm ${nupddlfile} ${smvfile}
+
+exit 0

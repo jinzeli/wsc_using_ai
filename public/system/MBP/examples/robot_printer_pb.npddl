@@ -1,0 +1,15 @@
+(define (problem continuous_delivery)
+(:domain paper_delivery)
+(:typedef room_number - (range 0 50))
+(:init
+(unknown (robot_room))
+(unknown (paper_at_printer))
+(not (papers_around))
+(not (arm_busy)))
+(:observability :partial)
+(:strongcyclicgoal
+(and
+(not (arm_busy))
+(not (papers_around))
+(not (paper_at_printer)))))
+

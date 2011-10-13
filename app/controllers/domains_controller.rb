@@ -38,4 +38,16 @@ class DomainsController < ApplicationController
     @domain.destroy
     redirect_to domains_url, :notice => "Successfully destroyed domain."
   end
+  
+  def plan
+    @domain = Domain.find(params[:id])
+    @dpath = @domain.pdomain.path
+    @ppath = @domain.pproblem.path
+    @plan = %x[MBP-solve -plan_output - #{@dpath} #{@ppath}]
+    if @domain.update_attribute(:plan, @plan)
+      
+    else
+      redirect_to @domain, :notice  => "Plan cannot be saved."
+    end
+  end
 end

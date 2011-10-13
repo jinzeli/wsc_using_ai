@@ -1,5 +1,7 @@
 WscUsingAi::Application.routes.draw do
+  
   root :to => 'domains#index'
+  match '/domains/:id/plan', :controller => 'domains', :action => 'plan'
   resources :domains
 
   # The priority is based upon order of creation:

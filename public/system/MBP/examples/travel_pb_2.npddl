@@ -1,0 +1,11 @@
+(define (problem travel_pb)
+        (:domain travel)
+	(:init  
+			(= (quotation_status) notknown)
+			(oneof (discount fQuotation) (not (discount fQuotation)))
+	)
+   (:postronggoal 
+				(= (quotation_status) booked)
+	)
+)
+

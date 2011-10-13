@@ -1,0 +1,21 @@
+(define (domain saturation_balancing)
+  (:types status)
+	(:constants  start accept refuse possible notpossible - status)
+	;;(:predicates (finished))
+  (:functions
+       (process) - status
+	)
+
+  (:action flight_request
+   :precondition (= (process) start)
+   :effect      (oneof (assign (process) possible) (assign (process) notpossible))
+	)	
+  (:action accept_flight
+   :precondition (= (process) possible)
+   :effect        (assign (process) accept) 
+	)
+  (:action refuse_flight
+   :precondition (= (process) notpossible)
+   :effect        (assign (process) refuse) 
+	)	
+) 

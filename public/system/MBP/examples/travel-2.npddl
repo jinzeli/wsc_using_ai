@@ -1,0 +1,44 @@
+(define (domain travel)
+	(:types 
+		status quotation
+	)
+	(:constants 
+		notknown checked discounted booked - status
+		fQuotation - quotation
+	)
+	(:predicates 
+		(discount ?q - quotation)
+	)
+	(:functions 
+		(quotation_status) - status
+	)
+	(:action get_quotation
+		:precondition (= (quotation_status) notknown) 						  
+		:effect (assign (quotation_status) checked)				  
+	)
+	(:action add_discount
+		:precondition (and (= (quotation_status) checked) (discount fQuotation))
+		:effect (assign (quotation_status) discounted)
+	)
+	(:observation membership - boolean
+		(iff (= membership 1)
+				 (discount fQuotation)
+		)
+   )
+	(:action book
+    	:precondition (or 
+								(= (quotation_status) checked) 
+								(= (quotation_status) discounted)
+						  )
+ 		:effect(and
+				 		(when (= (quotation_status) checked) 
+				  			(assign (quotation_status) booked)
+				  		)
+				 		(when (= (quotation_status) discounted) 
+				  			(assign (quotation_status) )
+				  		)
+				 )
+	)
+)
+                   
+            

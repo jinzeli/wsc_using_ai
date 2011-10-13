@@ -1,0 +1,22 @@
+#!/bin/sh
+
+set -e
+
+execerror () {
+	echo
+	echo "ERROR: $@."
+	echo
+	exit 1
+}  
+
+while [ $# -gt 0 ]
+do
+	echo "# 1 \"$1\""
+	cat $1 || execerror "error reading file $1"
+	shift
+done    
+
+exit 0
+
+
+
