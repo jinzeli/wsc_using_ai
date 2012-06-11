@@ -14,6 +14,8 @@ gem 'paperclip'
 gem 'annotate', '~>2.4.1.beta'
 
 gem 'rspec-rails', '2.10.0'
+
+gem 'bcrypt-ruby', '3.0.1'
 # Use unicorn as the web server
 # gem 'unicorn'
 
@@ -37,3 +39,4 @@ gem 'rspec-rails', '2.10.0'
 #   gem 'webrat'
 # end
 gem "mocha", :group => :test
+
