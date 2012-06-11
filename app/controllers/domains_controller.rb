@@ -43,7 +43,8 @@ class DomainsController < ApplicationController
     @domain = Domain.find(params[:id])
     @dpath = @domain.pdomain.path
     @ppath = @domain.pproblem.path
-    @plan = %x[MBP-solve -plan_output - #{@dpath} #{@ppath}]
+    #@plan = %x[MBP-solve -plan_output - #{@dpath} #{@ppath}]
+    @plan = %x[sgplan522 -o #{@dpath} -f #{@ppath}]
     if @domain.update_attribute(:plan, @plan)
       
     else
