@@ -1,5 +1,7 @@
 WscUsingAi::Application.routes.draw do
   
+  get "users/new"
+
   root :to => 'domains#index'
   match '/domains/:id/plan', :controller => 'domains', :action => 'plan'
   resources :domains

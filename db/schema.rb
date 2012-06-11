@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111013183307) do
+ActiveRecord::Schema.define(:version => 20120611090115) do
 
   create_table "domains", :force => true do |t|
     t.string   "title"
@@ -26,6 +26,13 @@ ActiveRecord::Schema.define(:version => 20111013183307) do
     t.integer  "pproblem_file_size"
     t.datetime "pproblem_updated_at"
     t.text     "plan"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

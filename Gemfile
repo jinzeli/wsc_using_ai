@@ -11,6 +11,9 @@ gem 'nifty-generators'
 
 gem 'paperclip'
 
+gem 'annotate', '~>2.4.1.beta'
+
+gem 'rspec-rails', '2.10.0'
 # Use unicorn as the web server
 # gem 'unicorn'
 
