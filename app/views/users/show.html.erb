@@ -14,7 +14,7 @@
 		<strong>knowledge domains:</strong> <br /><br />
 		<% for domain in @domains %>
 			<%= link_to domain.title, domain_path(domain) %> |
-			<%= time_ago_in_words(domain.created_at) %>
+			<%= time_ago_in_words(domain.created_at) %> <br /><br />
 		<% end %>
 	</table>
 	<% end %>
