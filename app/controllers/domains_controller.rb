@@ -46,10 +46,18 @@ class DomainsController < ApplicationController
         render :action => 'edit'
       end
     else
-      @domain.update_attributes(:pproblem_delete => params[:domain][:pproblem_delete]) if @domain.pproblem?
-      @domain.update_attributes(:pproblem => params[:domain][:pproblem]) if !@domain.pproblem?
-
-      redirect_to @domain, :notice  => "Successfully updated problem file."     
+      # @domain.update_attributes(:pproblem_delete => params[:domain][:pproblem_delete]) if @domain.pproblem?
+      # @domain.update_attributes(:pproblem => params[:domain][:pproblem]) if !@domain.pproblem?
+      # redirect_to @domain, :notice  => "Successfully updated problem file."    
+      if @domain.pproblem? && (params[:domain][:pproblem_delete] == "1")
+        @domain.update_attributes(:pproblem_delete => params[:domain][:pproblem_delete])
+        redirect_to @domain, :notice  => "Successfully updated problem file."
+      elsif !@domain.pproblem?
+        @domain.update_attributes(:pproblem => params[:domain][:pproblem])
+        redirect_to @domain, :notice  => "Successfully uploaded problem file."
+      else
+        redirect_to @domain, :notice  => "Not authorized to edit this part of domain"
+      end
     end
   end
 
