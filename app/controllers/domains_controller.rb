@@ -1,6 +1,6 @@
 class DomainsController < ApplicationController
   # before_filter :authenticate, :only => [:create, :new, :destroy, :edit, :update]
-  # before_filter :correct_user, :only => [:edit, :update, :destroy]
+  before_filter :correct_user, :only => [:destroy]
   before_filter :authenticate, :only => [:create, :new, :destroy]
 
   def index
