@@ -1,2 +1,24 @@
-user: <%= @user.name %> | email: <%= @user.email %>
+<br />
+<br />
+<div>
+	<strong>Name</strong> <%= @user.name %> | 
+	<strong>URL</strong> <%= link_to user_path(@user), @user %> |
+	<strong>Number of Domains</strong> <%= @user.domains.count %>
+
+</div>
+<br />
+<br />
+<div>
+	<% unless @user.domains.empty? %>
+	<table class="domains" summary="User knowledge domains">
+		<strong>knowledge domains:</strong> <br /><br />
+		<% for domain in @domains %>
+			<%= link_to domain.title, domain_path(domain) %> |
+			<%= time_ago_in_words(domain.created_at) %>
+		<% end %>
+	</table>
+	<% end %>
+</div>
+
+
 

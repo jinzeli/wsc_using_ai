@@ -33,7 +33,21 @@ module SessionsHelper
     redirect_to(session[:return_to] || default)
     clear_return_to
   end
+  
+  def authenticate
+    deny_access unless signed_in?
+  end
 
+  def deny_access
+    store_location
+    redirect_to signin_path, :notice => "Please sign in to access this page."
+  end
+  
+  def correct_user
+    #@user = User.find(params[:id])
+    @user = Domain.find(params[:id]).user
+    redirect_to root_path, :notice => "Not correct user to edit this domain" unless current_user?(@user)
+  end
 
   private
     def user_from_remember_token

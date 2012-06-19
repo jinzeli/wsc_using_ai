@@ -1,4 +1,6 @@
 class DomainsController < ApplicationController
+  before_filter :authenticate, :only => [:create, :new, :destroy, :edit, :update]
+  before_filter :correct_user, :only => [:edit, :update, :destroy]
   def index
     @domains = Domain.all
   end
@@ -12,11 +14,12 @@ class DomainsController < ApplicationController
   end
 
   def create
-    @domain = Domain.new(params[:domain])
+    #@domain = Domain.new(params[:domain])
+    @domain = current_user.domains.build(params[:domain])
     if @domain.save
       redirect_to @domain, :notice => "Successfully created domain."
     else
-      render :action => 'new'
+      render :action => 'index'
     end
   end
 

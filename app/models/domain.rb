@@ -20,6 +20,15 @@
 
 class Domain < ActiveRecord::Base
   attr_accessible :title, :description, :pdomain_delete, :pdomain, :pproblem_delete, :pproblem, :plan
+  
+  belongs_to :user
+  
+  validates :title, :presence => true, :length => { :maximum => 50 }
+  validates :description, :presence => true, :length => { :maximum => 500 }
+  validates :user_id, :presence => true
+  
+  default_scope :order => 'domains.created_at DESC'
+  
   has_attached_file :pdomain
   has_attached_file :pproblem
   
