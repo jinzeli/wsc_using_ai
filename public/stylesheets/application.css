@@ -9,7 +9,7 @@ a img {
 }
 
 a {
-  color: #0000FF;
+  color: #000;
 }
 
 .clear {
@@ -134,10 +134,25 @@ padding: 0.2em 0;
 nav ul li a {
 padding: 0 5px;
 font-weight: bold;
+color: #4B7399;
 }
 nav ul li a:visited {
-color: #000;
+color: #4B7399;
 }
 nav ul li a:hover {
 text-decoration: underline;
+}
+ul.users {
+margin-left: -3em;
+}
+.users li {
+list-style: none;
+}
+ul.users li a {
+padding: 0 5px;
+font-weight: bold;
+color: #000;
+}
+ul.users li a:visited {
+color: #000;
 }
