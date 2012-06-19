@@ -48,6 +48,12 @@ module SessionsHelper
     @user = Domain.find(params[:id]).user
     redirect_to root_path, :notice => "Not correct user to edit this domain" unless current_user?(@user)
   end
+  
+  def correct_user?(user)
+    #@user = User.find(params[:id])
+    @user = Domain.find(params[:id]).user
+    user == @user
+  end
 
   private
     def user_from_remember_token

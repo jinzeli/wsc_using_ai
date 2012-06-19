@@ -34,6 +34,7 @@ class Domain < ActiveRecord::Base
   
   before_save :destroy_pdomain?
   before_save :destroy_pproblem?
+  
 
   def pdomain_delete
     @pdomain_delete ||= "0"
@@ -57,5 +58,4 @@ private
   def destroy_pproblem?
     self.pproblem.clear if @pproblem_delete == "1"
   end
-
 end
