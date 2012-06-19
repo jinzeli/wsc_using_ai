@@ -1,4 +1,4 @@
-<% title "Service Composition System" %>
+<% title "Planning based Service Composition System" %>
 
 <h3><%= link_to "New domain", new_domain_path %></h3>
 
@@ -13,7 +13,8 @@
 	<p>
 		<%= link_to "Show", domain %> |
 		<%= link_to "Edit", edit_domain_path(domain) %> |
-		<%= link_to "Destroy", domain, :confirm => 'Are you sure?', :method => :delete %>
+		<%= link_to "Destroy", domain, :confirm => 'Are you sure?', :method => :delete %> |
+		<%= time_ago_in_words(domain.created_at) %>
 	</p>
 </div>
 <% end %>
