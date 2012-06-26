@@ -72,11 +72,15 @@ class DomainsController < ApplicationController
     @dpath = @domain.pdomain.path
     @ppath = @domain.pproblem.path
     #@plan = %x[MBP-solve -plan_output - #{@dpath} #{@ppath}]
-    @plan = %x[sgplan522 -o #{@dpath} -f #{@ppath}]
+    #@plan = %x[sgplan522 -o #{@dpath} -f #{@ppath} -out output]
+    %x[sgplan522 -o #{@dpath} -f #{@ppath} -out ~/output]
+    
+    @plan = File.open(ENV['HOME']+'/output', 'r').read
     if @domain.update_attribute(:plan, @plan)
       
     else
       redirect_to @domain, :notice  => "Plan cannot be saved."
     end
   end
+
 end

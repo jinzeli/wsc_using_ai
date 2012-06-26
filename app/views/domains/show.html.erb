@@ -11,13 +11,17 @@
 <% unless @domain.new_record? || !@domain.pdomain? %>
 <p>
   <strong>Domain File: </strong>
-  <%= link_to "uploaded domain", @domain.pdomain.url %>
+  <%= link_to "uploaded domain", @domain.pdomain.url %> 
+  | <strong>File size: </strong><%= @domain.pdomain_file_size %> Bytes
+  | <strong>Updated at: </strong><%= @domain.pdomain_updated_at %>
 </p>
 <% end %>
 <% unless @domain.new_record? || !@domain.pproblem? -%>
 <p>
   <strong>Planning File: </strong>
   <%= link_to "uploaded problem", @domain.pproblem.url %>
+  | <strong>File size: </strong><%= @domain.pproblem_file_size %> Bytes	
+  | <strong>Updated at: </strong><%= @domain.pproblem_updated_at %>
 </p>
 <% end %>
 
