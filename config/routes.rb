@@ -5,16 +5,15 @@ WscUsingAi::Application.routes.draw do
   get "users/new"
 
   root :to => 'domains#index'
-  #match '/domains/:id/plan', :controller => 'domains', :action => 'plan'
   match '/domains/:id/plan', :to => 'domains#plan'
   resources :domains
   
   resources :users
   resources :sessions, :only => [:new, :create, :destroy]
 
-  match '/signup', :to => 'users#new'
-  match '/signin', :to => 'sessions#new'
-  match '/signout', :to => 'sessions#destroy'
+  match '/usersignup', :to => 'users#new'
+  match '/usersignin', :to => 'sessions#new'
+  match '/usersignout', :to => 'sessions#destroy'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -13,8 +13,8 @@
 	<table class="domains" summary="User knowledge domains">
 		<strong>knowledge domains:</strong> <br /><br />
 		<% for domain in @domains %>
-			<%= link_to domain.title, domain_path(domain) %> |
-			<%= time_ago_in_words(domain.created_at) %> <br /><br />
+			<%= link_to domain.title, domain_path(domain) %> | 
+			Created <%= time_ago_in_words(domain.created_at) %> ago<br /><br />
 		<% end %>
 	</table>
 	<% end %>

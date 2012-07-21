@@ -1,5 +1,4 @@
 class DomainsController < ApplicationController
-  # before_filter :authenticate, :only => [:create, :new, :destroy, :edit, :update]
   before_filter :correct_user, :only => [:destroy]
   before_filter :authenticate, :only => [:create, :new, :destroy]
 
@@ -16,7 +15,6 @@ class DomainsController < ApplicationController
   end
 
   def create
-    #@domain = Domain.new(params[:domain])
     @domain = current_user.domains.build(params[:domain])
     if @domain.save
       redirect_to @domain, :notice => "Successfully created domain."
@@ -29,14 +27,6 @@ class DomainsController < ApplicationController
     @domain = Domain.find(params[:id])
   end
 
-  # def update
-    # @domain = Domain.find(params[:id])
-    # if @domain.update_attributes(params[:domain])
-      # redirect_to @domain, :notice  => "Successfully updated domain."
-    # else
-      # render :action => 'edit'
-    # end
-  # end
   def update
    @domain = Domain.find(params[:id])
     if correct_user?(current_user)
@@ -46,9 +36,6 @@ class DomainsController < ApplicationController
         render :action => 'edit'
       end
     else
-      # @domain.update_attributes(:pproblem_delete => params[:domain][:pproblem_delete]) if @domain.pproblem?
-      # @domain.update_attributes(:pproblem => params[:domain][:pproblem]) if !@domain.pproblem?
-      # redirect_to @domain, :notice  => "Successfully updated problem file."    
       if @domain.pproblem? && (params[:domain][:pproblem_delete] == "1")
         @domain.update_attributes(:pproblem_delete => params[:domain][:pproblem_delete])
         redirect_to @domain, :notice  => "Successfully updated problem file."
@@ -71,8 +58,11 @@ class DomainsController < ApplicationController
     @domain = Domain.find(params[:id])
     @dpath = @domain.pdomain.path
     @ppath = @domain.pproblem.path
+    
+    #Apply MBP to planning jobs
     #@plan = %x[MBP-solve -plan_output - #{@dpath} #{@ppath}]
-    #@plan = %x[sgplan522 -o #{@dpath} -f #{@ppath} -out output]
+    
+    #Apply SGPLan5 to planning jobs
     %x[sgplan522 -o #{@dpath} -f #{@ppath} -out ~/output]
     
     @plan = File.open(ENV['HOME']+'/output', 'r').read

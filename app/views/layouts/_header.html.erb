@@ -1,16 +1,16 @@
-	<nav class="round">
+	<nav>
 	<ul>
 		<li><%= link_to "Knowledge Domains", root_path %></li>
 		<% if signed_in? %>
 		<li><%= link_to "Users", users_path %></li>
 		<li><%= link_to "Profile", current_user %></li>
 		<li><%= link_to "Settings", edit_user_path(current_user) %></li>
-		<li><%= link_to "Sign out", signout_path, :method => :delete %></li>
+		<li><%= link_to "Sign out", usersignout_path, :method => :delete %></li>
 		<% else %>
-		<li><%= link_to "Sign in", signin_path %></li>
-		<li><%= link_to "Sign up", signup_path %></li>
+		<li><%= link_to "Sign in", usersignin_path %></li>
+		<li><%= link_to "Sign up", usersignup_path %></li>
 		<% end %>
 
-	</ul>
+	</ul>	
 	</nav>
 

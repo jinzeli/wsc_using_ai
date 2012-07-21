@@ -44,13 +44,11 @@ module SessionsHelper
   end
   
   def correct_user
-    #@user = User.find(params[:id])
     @user = Domain.find(params[:id]).user
     redirect_to root_path, :notice => "Not correct user to edit this domain" unless current_user?(@user)
   end
   
   def correct_user?(user)
-    #@user = User.find(params[:id])
     @user = Domain.find(params[:id]).user
     user == @user
   end
@@ -68,5 +66,4 @@ module SessionsHelper
     def clear_return_to
       session[:return_to] = nil
     end
-
 end
